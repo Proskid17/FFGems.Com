@@ -38,21 +38,63 @@
             color: #00d2ff;
         }
 
-        /* Search Bar Section */
-        .search-container {
-            padding: 15px;
+        /* Player UID Input Section */
+        .uid-container {
+            padding: 20px 15px;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 20px auto 10px auto;
+            background-color: #111f38;
+            border: 1px solid #1c2e4e;
+            border-radius: 12px;
         }
 
-        .search-bar {
-            width: 100%;
+        .uid-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff9900;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .uid-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .uid-input {
+            flex: 1;
             padding: 12px 15px;
-            background-color: #ffffff;
-            border: none;
+            background-color: #0b1426;
+            border: 1px solid #1c2e4e;
             border-radius: 6px;
             font-size: 16px;
-            color: #333;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .uid-input::placeholder {
+            color: #556b8f;
+        }
+
+        .uid-input:focus {
+            border-color: #ff9900;
+        }
+
+        .btn-validate {
+            background-color: #ff9900;
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            padding: 0 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-validate:hover {
+            background-color: #e68a00;
         }
 
         /* Product Grid */
@@ -216,8 +258,12 @@
         <div style="font-size: 20px; cursor: pointer;">🛒</div>
     </header>
 
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Search for Games...">
+    <div class="uid-container">
+        <label class="uid-label">Step 1: Enter Free Fire Player ID</label>
+        <div class="uid-input-wrapper">
+            <input type="text" class="uid-input" placeholder="Example: 123456789">
+            <button class="btn-validate">Check</button>
+        </div>
     </div>
 
     <div class="grid-container">
@@ -238,7 +284,7 @@
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy</button>
+                <button class="btn-buy">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -258,7 +304,7 @@
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy</button>
+                <button class="btn-buy">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -278,7 +324,7 @@
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy</button>
+                <button class="btn-buy">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -298,7 +344,7 @@
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy</button>
+                <button class="btn-buy">⚡ Buy Now</button>
             </div>
         </div>
 

